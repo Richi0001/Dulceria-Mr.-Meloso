@@ -1,10 +1,6 @@
 # Dulceria-Mr.-Meloso
 Dulcería online desarrollada en Python que permite a los usuarios explorar un catálogo de productos, agregar artículos al carrito y realizar compras de forma sencilla. Incluye gestión de usuarios, inventario, utilizando Flask para el backend y PostgreSQL como sistema de base de datos.
 
-# Dulcería Mr. Meloso
-
-Aplicación web de una dulcería online desarrollada en Python con Flask y PostgreSQL. Permite a los usuarios explorar productos, agregarlos al carrito y gestionar pedidos.
-
 ---
 
 ## Instalación y configuración
