@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal - Mr. Meloso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .main-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        .header-card {
+            background-color: #3498db;
+            color: white;
+        }
+        .menu-btn {
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .menu-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .user-info {
+            background-color: #030910;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .btn-compras {
+            background-color: #6f42c1;
+            border-color: #5a32a3;
+            color: white;
+        }
+        .btn-compras:hover {
+            background-color: #5a32a3;
+            color: white;
+        }
+
+        /* ESTILOS ACTUALIZADOS PARA LA SECCIÓN DE DESCUENTOS */
+        .descuentos-info {
+            background-color: #f0f2f5; /* Tono de gris ligeramente diferente para contraste sutil */
+            border-radius: 0.5rem;    /* Consistente con Bootstrap (8px) */
+            padding: 1.25rem;         /* Más espaciado interno (equivalente a card-body padding) */
+            margin-top: 2.5rem;       /* Un poco más de margen superior */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04); /* Sombra muy sutil para profundidad */
+        }
+        .descuentos-info h5 {
+            color: #343a40;           /* Color de encabezado más oscuro y estándar */
+            font-size: 1.2rem;        /* Título ligeramente más grande */
+            margin-bottom: 1.25rem;   /* Más espacio debajo del título */
+            font-weight: 500;         /* Peso medio para el título */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centrar título e icono */
+        }
+        .descuentos-info h5 .bi-tags-fill {
+            margin-right: 0.5rem;    /* Espacio entre icono y texto del título */
+            color: #28a745;          /* Color verde para el icono principal */
+        }
+        .descuentos-info .list-group {
+            margin-bottom: 0; /* Eliminar margen inferior de la lista si lo tuviera por defecto */
+        }
+        .descuentos-info .list-group-item {
+            background-color: transparent !important; /* Asegurar transparencia sobre el fondo de .descuentos-info */
+            border: none;             /* Sin bordes, ya que list-group-flush los quita */
+            padding: 0.75rem 0.25rem;  /* Más padding vertical, poco horizontal (controlado por icono/texto) */
+            color: #333;              /* Color de texto un poco más oscuro para mejor lectura */
+            display: flex;            /* Para alinear icono y texto */
+            align-items: center;      /* Centrar verticalmente icono y texto */
+            font-size: 0.95rem;       /* Ligeramente más grande para legibilidad */
+        }
+        /* Opcional: línea divisoria sutil entre elementos, si se prefiere */
+        /*
+        .descuentos-info .list-group-item:not(:last-child) {
+            border-bottom: 1px solid #e0e5eb;
+        }
+        */
+        .descuentos-info .list-group-item .bi-tag {
+            color: #198754;           /* Color del icono de etiqueta */
+            margin-right: 0.85rem;    /* Más espacio junto al icono */
+            font-size: 1.15rem;       /* Icono ligeramente más grande */
+            flex-shrink: 0;           /* Evitar que el icono se encoja */
+        }
+        .descuentos-info .list-group-item strong {
+            color: #007bff; /* Resaltar el porcentaje de descuento con un color primario */
+        }
+
+        .descuentos-info p.small {
+            color: #5a6268 !important; /* Color de texto-muted más legible */
+            margin-top: 1.25rem;      /* Espacio sobre la nota final */
+            line-height: 1.6;         /* Mejor interlineado para el párrafo pequeño */
+            font-size: 0.85rem;       /* Tamaño de fuente para la nota */
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="card main-card">
+            <div class="card-header header-card">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0"><i class="bi bi-shop me-2"></i>Mr. Meloso</h2>
+                    {% if 'cliente_id' in session %}
+                    <div class="user-info">
+                        <i class="bi bi-person-circle me-1"></i>
+                        <span>{{ session['cliente_nombre'] }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <h4 class="card-title text-center mb-4">Menú Principal</h4>
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <a href="{{ url_for('productos_bp.consulta_productos') }}" class="btn btn-primary w-100 py-3 menu-btn">
+                            <i class="bi bi-list-ul fs-4"></i><br>
+                            Consultar Productos
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ url_for('compras_bp.nueva_compra') }}" class="btn btn-success w-100 py-3 menu-btn">
+                            <i class="bi bi-cart-plus fs-4"></i><br>
+                            Nueva Compra
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ url_for('compras_bp.listar_compras') }}" class="btn btn-compras w-100 py-3 menu-btn">
+                            <i class="bi bi-receipt fs-4"></i><br>
+                            Ver Compras
+                        </a>
+                    </div>
+                </div>
+
+                <div class="descuentos-info">
+                    <h5 class="text-center"><i class="bi bi-tags-fill"></i>Política de Descuentos</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><i class="bi bi-tag"></i>Compras de $100 a $199: <strong>5% de descuento</strong></li>
+                        <li class="list-group-item"><i class="bi bi-tag"></i>Compras de $200 a $299: <strong>10% de descuento</strong></li>
+                        <li class="list-group-item"><i class="bi bi-tag"></i>Compras de $300 a $499: <strong>15% de descuento</strong></li>
+                        <li class="list-group-item"><i class="bi bi-tag"></i>Compras de $500 a $699: <strong>20% de descuento</strong></li>
+                        <li class="list-group-item"><i class="bi bi-tag"></i>Compras de $700 o más: <strong>25% de descuento</strong></li>
+                    </ul>
+                    <p class="text-muted small text-center">Los descuentos se aplican automáticamente al finalizar la compra.</p>
+                </div>
+                <div class="d-flex justify-content-end mt-4 pt-3"> {% if 'cliente_id' in session %}
+                    <a href="{{ url_for('auth_bp.logout') }}" class="btn btn-outline-danger">
+                        <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                    </a>
+                    {% else %}
+                    <a href="{{ url_for('auth_bp.login_cliente') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

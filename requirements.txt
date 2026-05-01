@@ -1,0 +1,4 @@
+Flask==2.3.2 # O la versión que uses
+psycopg2-binary==2.9.9 # O la versión que uses
+python-dotenv==1.0.0 # Para cargar variables de entorno desde .env
+Werkzeug==2.3.7 # Ya es una dependencia de Flask, pero la pones si la usas directamente

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Compra - Mr. Meloso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .card-header-compra {
+            background-color: #007bff;
+            color: white;
+        }
+        .table-detalle th, .table-detalle td {
+            vertical-align: middle;
+        }
+        .table-detalle tbody tr:last-child {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-journal-text me-2"></i>Detalle de Compra #{{ compra.id }}</h1>
+            <a href="{{ url_for('compras_bp.inicio_home') }}" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i> Volver al Inicio
+            </a>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card mb-4">
+            <div class="card-header card-header-compra">
+                <h5>Información de la Compra</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Fecha:</strong> {{ compra.fecha.strftime('%d/%m/%Y %H:%M:%S') if compra.fecha else 'N/A' }}</p>
+                        <p><strong>Cliente:</strong> {{ session['cliente_nombre'] if 'cliente_nombre' in session else 'compra Rápida' }}</p>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <p><strong>Subtotal:</strong> ${{ "%.2f"|format(compra.subtotal) }}</p>
+                        <p><strong>Descuento:</strong> ${{ "%.2f"|format(compra.descuento) }}</p>
+                        <p><strong>Total:</strong> ${{ "%.2f"|format(compra.total) }}</p>
+                        <p><strong>Método de Pago:</strong> <span class="badge bg-info">{{ compra.metodo_pago|capitalize }}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h5>Productos Comprados</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-detalle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Importe</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for detalle in detalles %}
+                            <tr>
+                                <td>{{ detalle.descripcion }}</td>
+                                <td>{{ detalle.cantidad }}</td>
+                                <td>${{ "%.2f"|format(detalle.precio_unitario) }}</td>
+                                <td>${{ "%.2f"|format(detalle.importe) }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center">No hay detalles para esta Compra.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Total Compra:</strong></td>
+                                <td><strong>${{ "%.2f"|format(compra.total) }}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

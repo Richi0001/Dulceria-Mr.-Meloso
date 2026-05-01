@@ -1,0 +1,20 @@
+.body {
+    background-color: #f4f404; /* Gris claro */
+}
+
+.container {
+    background-color: #41089d; /* Blanco */
+}
+
+.form-group label {
+    color: #aa1515; /* Gris oscuro */
+}
+
+.btn {
+    background-color: #007bff; /* Azul */
+    color: #21ba3f; /* Blanco */
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Azul oscuro */
+}
